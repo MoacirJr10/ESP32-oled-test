@@ -6,6 +6,18 @@ Conjunto completo de testes para displays OLED SSD1306 usando ESP32. Detecta pix
 ![ESP32](https://img.shields.io/badge/ESP32-Compatible-blue?style=for-the-badge&logo=espressif)
 ![SSD1306](https://img.shields.io/badge/SSD1306-128x64-green?style=for-the-badge)
 
+##  Índice
+
+- [Sobre](#-sobre)
+- [Hardware Necessário](#️-hardware-necessário)
+- [Instalação](#-instalação)
+- [Conexões](#-conexões)
+- [Testes Disponíveis](#-testes-disponíveis)
+- [Como Usar](#-como-usar)
+- [Interpretando Resultados](#-interpretando-resultados)
+- [Troubleshooting](#-troubleshooting)
+- [Customização](#-customização)
+
 ##  Sobre
 
 Este código executa **10 testes diferentes** no display OLED para verificar:
@@ -25,7 +37,7 @@ Este código executa **10 testes diferentes** no display OLED para verificar:
 -  **Demonstração** de capacidades gráficas
 -  **Teste de qualidade** em lotes de displays
 
-## 🛠 Hardware Necessário
+##  Hardware Necessário
 
 | Item | Especificação | Obs |
 |------|---------------|-----|
@@ -63,12 +75,12 @@ Via **Gerenciador de Bibliotecas** (`Ctrl+Shift+I`):
 ### **3️⃣ Download do Código**
 
 ```bash
-git clone https://github.com/seu-usuario/esp32-oled-test.git
+git clone https://github.com/seu-usuario/esp32-oled-test-suite.git
 ```
 
-Ou copie o código diretamente do arquivo `oled_test.ino`
+Ou copie o código diretamente do arquivo `oled_test_suite.ino`
 
-## 🔌 Conexões
+##  Conexões
 
 ### **ESP32 ↔ OLED SSD1306**
 
@@ -87,20 +99,20 @@ Ou copie o código diretamente do arquivo `oled_test.ino`
 │              3V3├────────────────┤VCC       ┌───┤
 │              GND├────────────────┤GND       │ O │
 │    GPIO 21 (SDA)├────────────────┤SDA       │ L │
-│    GPIO 22 (SCL)├────────────────┤SCL/SCK   │ E │
+│    GPIO 22 (SCL)├────────────────┤SCL/SDK   │ E │
 │                 │                │          │ D │
 │      [USB]      │                └──────────┴───┘
 └─────────────────┘
 ```
 
-### ⚠️ **Dicas de Conexão**
+###  **Dicas de Conexão**
 
-- 🔧 Use **jumpers de boa qualidade** para evitar falsos negativos
-- 📏 Mantenha **cabos curtos** (< 20cm) para melhor sinal I2C
-- 🔍 Confirme **polaridade** antes de ligar (VCC/GND)
-- 📱 Teste com **multímetro** se houver dúvidas
+-  Use **jumpers de boa qualidade** para evitar falsos negativos
+-  Mantenha **cabos curtos** (< 20cm) para melhor sinal I2C
+-  Confirme **polaridade** antes de ligar (VCC/GND)
+-  Teste com **multímetro** se houver dúvidas
 
-## 🧪 Testes Disponíveis
+##  Testes Disponíveis
 
 ### **Sequência Automática (30 segundos total)**
 
@@ -117,7 +129,7 @@ Ou copie o código diretamente do arquivo `oled_test.ino`
 | 9️⃣ | **Bordas** | 3s | Extremidades da tela |
 | 🔟 | **Tela Cheia** | 3s | Contraste máximo |
 
-### 📋 **Detalhamento dos Testes**
+###  **Detalhamento dos Testes**
 
 #### **1️⃣ Pixels Aleatórios**
 ```cpp
@@ -203,7 +215,7 @@ display.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SSD1306_WHITE);
 // Testa: contraste máximo, uniformidade, ghosting
 ```
 
-## 🚀 Como Usar
+##  Como Usar
 
 ### **1️⃣ Upload e Execução**
 
@@ -239,7 +251,7 @@ Executando teste 3/10
 -  **Cada teste dura 3 segundos** - tempo suficiente para análise
 -  **Ciclo completo**: 30 segundos, depois reinicia automaticamente
 
-## 🔍 Interpretando Resultados
+##  Interpretando Resultados
 
 ### ✅ **Sinais de Display Saudável**
 
@@ -258,14 +270,14 @@ Executando teste 3/10
 
 | Sintoma | Causa Provável | Solução |
 |---------|----------------|---------|
-| **Pixels não acendem** | Pixels mortos | ❌ Trocar display |
-| **Linhas faltando** | Problema de varredura | 🔧 Verificar conexões |
-| **Formas distorcidas** | Timing I2C incorreto | ⚙️ Reduzir velocidade |
-| **Texto borrado** | Contraste baixo | 🔧 Verificar alimentação |
-| **Animação travada** | Código/hardware | 🔄 Reset ESP32 |
-| **Metade da tela preta** | Conexão SDA/SCL | 🔌 Reconectar cabos |
-| **Display não liga** | Alimentação | ⚡ Testar 5V ao invés de 3.3V |
-| **Ghosting** | Refresh lento | ⚙️ Otimizar código |
+| **Pixels não acendem** | Pixels mortos |  Trocar display |
+| **Linhas faltando** | Problema de varredura |  Verificar conexões |
+| **Formas distorcidas** | Timing I2C incorreto |  Reduzir velocidade |
+| **Texto borrado** | Contraste baixo |  Verificar alimentação |
+| **Animação travada** | Código/hardware |  Reset ESP32 |
+| **Metade da tela preta** | Conexão SDA/SCL |  Reconectar cabos |
+| **Display não liga** | Alimentação |  Testar 5V ao invés de 3.3V |
+| **Ghosting** | Refresh lento |  Otimizar código |
 
 ###  **Critérios de Aprovação**
 
@@ -311,29 +323,107 @@ Error: 'SSD1306_SWITCHCAPVCC' was not declared
 ```
 
 **Solução:**
-
-Reinstalar biblioteca:
+```cpp
+// Reinstalar biblioteca:
 Gerenciador de Bibliotecas > Adafruit SSD1306 > Reinstalar
-
+```
 
 ### **Tela branca/congelada**
 
-
- Possíveis causas:
+```cpp
+// Possíveis causas:
 1.  Cabo SDA/SCL trocado
 2.  Tensão insuficiente  
 3.  Cabos muito longos (>50cm)
 4.  Interferência eletromagnética
+```
 
+### **Animações lentas/travadas**
+
+```cpp
+// Otimizações:
+const unsigned long PATTERN_DURATION = 5000; // Aumentar tempo
+delay(100); // Reduzir delay principal
+```
 
 ### **Alguns pixels não funcionam**
 
- Pixels mortos: Problema físico - trocar display
- Linha inteira: Verificar conexões
- Área específica: Possível dano no controlador
+```
+❌ Pixels mortos: Problema físico - trocar display
+⚠️  Linha inteira: Verificar conexões
+🔧 Área específica: Possível dano no controlador
+```
 
+##  Customização
 
-## Especificações Técnicas
+### **Modificar Tempo dos Testes**
+
+```cpp
+const unsigned long PATTERN_DURATION = 5000; // 5 segundos por teste
+```
+
+### **Adicionar Novo Teste**
+
+```cpp
+// Exemplo: Teste de xadrez
+void testCheckerboard() {
+    display.clearDisplay();
+    display.setCursor(0, 0);
+    display.print("Teste: Xadrez");
+    
+    for (int x = 0; x < SCREEN_WIDTH; x += 4) {
+        for (int y = 10; y < SCREEN_HEIGHT; y += 4) {
+            if ((x/4 + y/4) % 2 == 0) {
+                display.fillRect(x, y, 4, 4, SSD1306_WHITE);
+            }
+        }
+    }
+    display.display();
+}
+
+// Adicionar ao switch no loop():
+case 10: testCheckerboard(); break;
+// Aumentar número total de testes:
+testPattern = (testPattern + 1) % 11; // Era % 10
+```
+
+### **Modificar Resolução**
+
+```cpp
+// Para outros tamanhos de OLED:
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 32    // OLED menor 128x32
+// ou
+#define SCREEN_HEIGHT 64    // OLED padrão 128x64
+```
+
+### **Adicionar Buzzer para Alertas**
+
+```cpp
+#define BUZZER_PIN 25
+
+void alertBeep() {
+    digitalWrite(BUZZER_PIN, HIGH);
+    delay(100);
+    digitalWrite(BUZZER_PIN, LOW);
+}
+
+// Chamar alertBeep() ao detectar problemas
+```
+
+### **Log Detalhado**
+
+```cpp
+void logTest(int testNum, String testName) {
+    Serial.println("================================");
+    Serial.printf("TESTE %d/10: %s\n", testNum, testName.c_str());
+    Serial.printf("Timestamp: %lu ms\n", millis());
+    Serial.printf("Free Heap: %u bytes\n", ESP.getFreeHeap());
+    Serial.println("================================");
+}
+```
+
+##  Especificações Técnicas
 
 ### **Performance**
 -  **Refresh Rate**: ~60 FPS
@@ -352,7 +442,7 @@ Gerenciador de Bibliotecas > Adafruit SSD1306 > Reinstalar
 - 🟨 **OLED 128x32 SSD1306 I2C** 
 - 🔵 **OLED 128x64 SH1106 I2C** (compatível)
 
-##  Contribuições
+## 🤝 Contribuições
 
 Melhorias são bem-vindas! Ideias:
 
@@ -370,15 +460,18 @@ Melhorias são bem-vindas! Ideias:
 4. Push: `git push origin nova-funcionalidade`  
 5. Abra um Pull Request
 
-##  Licença
+## 📜 Licença
 
 ```
 MIT License - Use livremente em projetos pessoais e comerciais
 ```
 
-##  Contato e Suporte
+## 📞 Contato e Suporte
 
--  **GitHub Issues**: [Reportar problemas](https://github.com/MoacirJr10/ESP32-oled-test/issues)
+-  **GitHub Issues**: [Reportar problemas](https://github.com/MoacirJr10/ESP32-led-test/issues)
+-  **Discussões**: [Fórum de dúvidas](https://github.com/MoacirJr10/ESP32-led-test/discussions)
+-  **Email**: Abra uma issue no GitHub para contato
+
 ---
 
 ###  **Conclusão**
@@ -392,3 +485,5 @@ Este test suite é essencial para:
  **Se foi útil, deixe uma estrela no repositório!**
 
  **Versão**: 1.0.0 | **Status**: ✅ Estável | **Testes**: ✅ Todos passando
+
+ **Desenvolvido por**: [@MoacirJr10](https://github.com/MoacirJr10) | **Repositório**: [ESP32-led-test](https://github.com/MoacirJr10/ESP32-led-test)

@@ -63,7 +63,7 @@ Via **Gerenciador de Bibliotecas** (`Ctrl+Shift+I`):
 ### **3️⃣ Download do Código**
 
 ```bash
-git clone https://github.com/seu-usuario/esp32-oled-test-suite.git
+git clone https://github.com/seu-usuario/esp32-oled-test.git
 ```
 
 Ou copie o código diretamente do arquivo `oled_test.ino`

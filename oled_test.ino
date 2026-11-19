@@ -38,12 +38,12 @@ void testLines() {
   
   // Linhas horizontais
   for (int y = 15; y < SCREEN_HEIGHT; y += 5) {
-    display.drawLine(0, y, SCREEN_WIDTH, y, SSD1306_WHITE);
+    display.drawLine(0, y, SCREEN_WIDTH - 1, y, SSD1306_WHITE);
   }
   
   // Linhas verticais
   for (int x = 0; x < SCREEN_WIDTH; x += 10) {
-    display.drawLine(x, 15, x, SCREEN_HEIGHT, SSD1306_WHITE);
+    display.drawLine(x, 15, x, SCREEN_HEIGHT - 1, SSD1306_WHITE);
   }
   display.display();
 }
@@ -75,7 +75,8 @@ void testRectangles() {
     int x = 10 + (i * 5);
     int y = 15 + (i * 5);
     int w = SCREEN_WIDTH - (2 * x);
-    int h = SCREEN_HEIGHT - (2 * y);
+    int h = SCREEN_HEIGHT - y - 1;
+    if (w <= 0 || h <= 0) continue;
     
     if (i % 2 == 0) {
       display.drawRect(x, y, w, h, SSD1306_WHITE);
@@ -119,7 +120,7 @@ void testProgressBar() {
   display.print("Teste: Progresso");
   
   static int progress = 0;
-  progress = (progress + 2) % 100;
+  progress = (progress + 2) % 102;
   
   // Barra externa
   display.drawRect(10, 25, 108, 10, SSD1306_WHITE);
@@ -255,9 +256,15 @@ void setup() {
   Serial.begin(115200);
   
   // Inicializa OLED
-  if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
+  Wire.begin();
+  uint8_t address = 0;
+  for (uint8_t candidate = 0x3C; candidate <= 0x3D; candidate++) {
+    Wire.beginTransmission(candidate);
+    if (Wire.endTransmission() == 0) { address = candidate; break; }
+  }
+  if (!address || !display.begin(SSD1306_SWITCHCAPVCC, address)) {
     Serial.println("Erro ao iniciar OLED SSD1306!");
-    for(;;);
+    while (true) delay(1000);
   }
   
   // Tela inicial
@@ -274,6 +281,7 @@ void setup() {
   
   Serial.println("Iniciando testes do OLED...");
   Serial.println("10 padrões diferentes a cada 3 segundos");
+  lastChange = millis();
 }
 
 // ====== LOOP ======
@@ -290,6 +298,7 @@ void loop() {
     Serial.println("/10");
   }
   
+  display.setTextColor(SSD1306_WHITE);
   // Executa o teste atual
   switch (testPattern) {
     case 0: testRandomPixels(); break;
